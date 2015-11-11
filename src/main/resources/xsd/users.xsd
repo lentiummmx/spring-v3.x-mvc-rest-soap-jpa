@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://benchmark.orm.fsw.sist.sol.its.com.mx/ws/soap/users" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://benchmark.orm.fsw.sist.sol.its.com.mx/ws/soap/users" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+	<annotation>
+		<appinfo>
+			<jaxb:globalBindings>
+				<jaxb:javaType name="java.util.Date" xmlType="date" parseMethod="javax.xml.bind.DatatypeDateConverter.parseDate" printMethod="javax.xml.bind.DatatypeDateConverter.printDate"/>
+			</jaxb:globalBindings>
+		</appinfo>
+	</annotation>
+	
+    <element name="getByIdRequest">
+    	<complexType>
+    		<sequence>
+    			<element name="userId" type="long"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+    
+    <element name="getByIdResponse">
+    	<complexType>
+    		<sequence>
+    			<element name="user" type="tns:userSoap"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+    <complexType name="userSoap">
+    	<sequence>
+    		<element name="id" type="long"></element>
+    		<element name="username" type="string"></element>
+    		<element name="firstName" type="string"></element>
+    		<element name="lastName" type="string"></element>
+    		<element name="email" type="string"></element>
+    		<element name="birthDate" type="date"></element>
+    	</sequence>
+    </complexType>
+</schema>
