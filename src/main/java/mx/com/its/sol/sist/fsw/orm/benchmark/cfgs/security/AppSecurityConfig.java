@@ -86,7 +86,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**");
+		web.ignoring().antMatchers("/resources/**", "/jsp-resources/**");
 	}
 
 	/* (non-Javadoc)
@@ -97,24 +97,25 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().requireCsrfProtectionMatcher(csrfMatcher()).and()
 			.formLogin()
-				.loginPage("/").permitAll()
+				//.loginPage("/").permitAll()
 				//.loginPage("/signin").permitAll()
+				.loginPage("/login").permitAll()
 				//.loginPage("/resources").permitAll()
-				.loginProcessingUrl("/authenticate")
-				.failureUrl("/signin?error=1").permitAll().and()
+				.loginProcessingUrl("/login")
+				.failureUrl("/login?error=1").permitAll().and()
 			.logout().logoutUrl("/logout").permitAll().and()
 			.rememberMe().rememberMeServices(rememberMeServices()).key("remember-me-key").and()
 			.authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/showMessage.html").permitAll()
-				.antMatchers("/favicon.ico").permitAll()
+				//.antMatchers("/", "/showMessage.html", 
+				.antMatchers("/favicon.ico", "/login", "/register", "/logout").permitAll()
 	            //.antMatchers("/resources/public/**").permitAll()
 	            //.antMatchers("/resources/img/**").permitAll()
 	            //.antMatchers("/resources/bower_components/**").permitAll()
 				//.antMatchers("/resources/**").permitAll()	// see configure(WebSecurity web)
 				//.antMatchers("/**").authenticated()
-				//.anyRequest().authenticated()
-				.antMatchers("/**").permitAll();
+				.anyRequest().authenticated()
+				/*-.antMatchers("/**").permitAll()-*/
+				.and();
 	}
 
 }

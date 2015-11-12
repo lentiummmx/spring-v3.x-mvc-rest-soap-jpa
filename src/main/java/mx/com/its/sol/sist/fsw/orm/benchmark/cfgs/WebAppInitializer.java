@@ -10,6 +10,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.data.DataAccessConfig;
+import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.filter.CustomConfigurableSiteMeshFilter;
 import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.security.AppSecurityConfig;
 import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.util.UtilsConfig;
 import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.web.WebMvcConfig;
@@ -59,7 +60,11 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		//Instead we used SecurityWebApplicationInitializer
 		//DelegatingFilterProxy springSecurityFilter = new DelegatingFilterProxy("springSecurityFilterChain");
 		
-		return new Filter[]{characterEncodingFilter};	//, springSecurityFilter};
+		//Instead we used CustomConfigurableSiteMeshFilter
+		//ConfigurableSiteMeshFilter configurableSiteMeshFilter = new ConfigurableSiteMeshFilter();
+		CustomConfigurableSiteMeshFilter configurableSiteMeshFilter = new CustomConfigurableSiteMeshFilter();
+		
+		return new Filter[]{characterEncodingFilter, configurableSiteMeshFilter};	//, springSecurityFilter};
 	}
 
 	/*

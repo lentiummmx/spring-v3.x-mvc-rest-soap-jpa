@@ -22,7 +22,7 @@ import mx.com.its.sol.sist.fsw.orm.benchmark.services.UserService;
  *
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserRestSvc {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestSvc.class);

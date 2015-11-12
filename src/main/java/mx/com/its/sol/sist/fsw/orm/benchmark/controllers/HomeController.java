@@ -29,7 +29,7 @@ public class HomeController {
 	
 	@RequestMapping(value="/showMessage.html")
 	public ModelAndView showMessage() {
-		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("message", "Test message");
 		LOGGER.debug("before render page :: " + model);
 		return new ModelAndView("showMessage", model);

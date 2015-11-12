@@ -41,7 +41,9 @@ public class UserEndpoint {
 		User user = userService.findById(byIdRequest.getUserId());
 		try {
 			BeanUtils.copyProperties(userSoap, user);
-		} catch (IllegalAccessException | InvocationTargetException e) {
+		} catch (IllegalAccessException e) {
+			LOGGER.error("Ocurrio un error al copiar el valor de las propiedades.", e);
+		} catch (InvocationTargetException e) {
 			LOGGER.error("Ocurrio un error al copiar el valor de las propiedades.", e);
 		}
 		byIdResponse.setUser(userSoap);
