@@ -11,7 +11,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.dozer.DozerBeanMapper;
 import org.hibernate.SessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -245,16 +244,6 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 	@Bean
 	public JdbcTemplate jdbcTemplate() {
 		return new JdbcTemplate(jndiDataSource());
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	@Bean
-	public DozerBeanMapper dozerBeanMapper() {
-		return new DozerBeanMapper();
 	}
 
 }

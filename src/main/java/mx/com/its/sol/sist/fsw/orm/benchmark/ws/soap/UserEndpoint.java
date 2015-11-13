@@ -3,11 +3,9 @@
  */
 package mx.com.its.sol.sist.fsw.orm.benchmark.ws.soap;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -39,13 +37,7 @@ public class UserEndpoint {
 		GetByIdResponse byIdResponse = new GetByIdResponse();
 		UserSoap userSoap = new UserSoap();
 		User user = userService.findById(byIdRequest.getUserId());
-		try {
-			BeanUtils.copyProperties(userSoap, user);
-		} catch (IllegalAccessException e) {
-			LOGGER.error("Ocurrio un error al copiar el valor de las propiedades.", e);
-		} catch (InvocationTargetException e) {
-			LOGGER.error("Ocurrio un error al copiar el valor de las propiedades.", e);
-		}
+		BeanUtils.copyProperties(user, userSoap);
 		byIdResponse.setUser(userSoap);
 		return byIdResponse;
 	}

@@ -6,9 +6,9 @@ package mx.com.its.sol.sist.fsw.orm.benchmark.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +74,7 @@ public class UserController {
 		}
 		try {
 			User user = new User();
-			BeanUtils.copyProperties(user, userModel);
+			BeanUtils.copyProperties(userModel, user);
 			userService.save(user);
 			return "redirect:login";
 		} catch (Exception e) {
