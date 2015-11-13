@@ -60,34 +60,34 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataAccessConfig.class);
 	
 	@Autowired
-	private Environment env;
+	private Environment environment;
 	
 	@Bean
 	public DataSource basicDataSource() {
 		BasicDataSource basicDataSource = new BasicDataSource();
-		basicDataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-		basicDataSource.setUrl(env.getProperty("jdbc.url"));
-		basicDataSource.setUsername(env.getProperty("jdbc.username"));
-		basicDataSource.setPassword(env.getProperty("jdbc.password"));
+		basicDataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
+		basicDataSource.setUrl(environment.getProperty("jdbc.url"));
+		basicDataSource.setUsername(environment.getProperty("jdbc.username"));
+		basicDataSource.setPassword(environment.getProperty("jdbc.password"));
 		return basicDataSource;
 	}
 	
     @Bean
     public DataSource driverManagerDataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-        driverManagerDataSource.setUrl(env.getProperty("jdbc.url"));
-		driverManagerDataSource.setUsername(env.getProperty("jdbc.username"));
-		driverManagerDataSource.setPassword(env.getProperty("jdbc.password"));
+        driverManagerDataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
+        driverManagerDataSource.setUrl(environment.getProperty("jdbc.url"));
+		driverManagerDataSource.setUsername(environment.getProperty("jdbc.username"));
+		driverManagerDataSource.setPassword(environment.getProperty("jdbc.password"));
         return driverManagerDataSource;
     }
 
 	@Bean
 	public DataSource jndiDataSource() {
-		LOGGER.debug("dataSource.jndi :: " + env.getProperty("dataSource.jndi"));
+		LOGGER.debug("dataSource.jndi :: " + environment.getProperty("dataSource.jndi"));
 		final JndiDataSourceLookup jndiDataSourceLookup = new JndiDataSourceLookup();
 		jndiDataSourceLookup.setResourceRef(true);
-		DataSource jndiDataSource = jndiDataSourceLookup.getDataSource(env.getProperty("dataSource.jndi"));
+		DataSource jndiDataSource = jndiDataSourceLookup.getDataSource(environment.getProperty("dataSource.jndi"));
 		return jndiDataSource;
 	}
 	
@@ -108,36 +108,36 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 	private Properties eclipselinkJpaProperties() {
 		Properties ecslnkJpaProperties = new Properties();
 
-		ecslnkJpaProperties.put("eclipselink.deploy-on-startup", "true");
-		//ecslnkJpaProperties.put("eclipselink.ddl-generation", "create-or-extend-tables");
-		ecslnkJpaProperties.put("eclipselink.ddl-generation", "drop-and-create-tables");
-		ecslnkJpaProperties.put("eclipselink.ddl-generation.output-mode", "database");
-		ecslnkJpaProperties.put("eclipselink.logging.level.sql", "FINE");
-		ecslnkJpaProperties.put("eclipselink.logging.parameters", "true");
-		ecslnkJpaProperties.put("eclipselink.weaving", "static");
-		ecslnkJpaProperties.put("eclipselink.weaving.lazy", "true");
-		ecslnkJpaProperties.put("eclipselink.weaving.internal", "true");
-		ecslnkJpaProperties.put("eclipselink.logging.level", "SEVERE");
-		ecslnkJpaProperties.put("eclipselink.jdbc.batch-writing", "JDBC");
-		ecslnkJpaProperties.put("eclipselink.jdbc.batch-writing.size", "1000");
-		ecslnkJpaProperties.put("eclipselink.jdbc.cache-statements", "true");
-		ecslnkJpaProperties.put("eclipselink.jdbc.cache-statements.size", "100");
-		ecslnkJpaProperties.put("eclipselink.cache.shared.default", "false");
-		ecslnkJpaProperties.put("eclipselink.flush-clear.cache", "Drop");
-		ecslnkJpaProperties.put("eclipselink.cache.size.default", "5000");
-		ecslnkJpaProperties.put("eclipselink.target-database", "Derby");
+		ecslnkJpaProperties.put("eclipselink.deploy-on-startup", environment.getProperty("eclipselink.deploy-on-startup"));
+		ecslnkJpaProperties.put("eclipselink.ddl-generation", environment.getProperty("eclipselink.ddl-generation"));	//"create-or-extend-tables");
+		ecslnkJpaProperties.put("eclipselink.ddl-generation.output-mode", environment.getProperty("eclipselink.ddl-generation.output-mode"));
+		ecslnkJpaProperties.put("eclipselink.logging.level.sql", environment.getProperty("eclipselink.logging.level.sql"));
+		ecslnkJpaProperties.put("eclipselink.logging.parameters", environment.getProperty("eclipselink.logging.parameters"));
+		ecslnkJpaProperties.put("eclipselink.weaving", environment.getProperty("eclipselink.weaving"));
+		ecslnkJpaProperties.put("eclipselink.weaving.lazy", environment.getProperty("eclipselink.weaving.lazy"));
+		ecslnkJpaProperties.put("eclipselink.weaving.internal", environment.getProperty("eclipselink.weaving.internal"));
+		ecslnkJpaProperties.put("eclipselink.logging.level", environment.getProperty("eclipselink.logging.level"));
+		ecslnkJpaProperties.put("eclipselink.jdbc.batch-writing", environment.getProperty("eclipselink.jdbc.batch-writing"));
+		ecslnkJpaProperties.put("eclipselink.jdbc.batch-writing.size", environment.getProperty("eclipselink.jdbc.batch-writing.size"));
+		ecslnkJpaProperties.put("eclipselink.jdbc.cache-statements", environment.getProperty("eclipselink.jdbc.cache-statements"));
+		ecslnkJpaProperties.put("eclipselink.jdbc.cache-statements.size", environment.getProperty("eclipselink.jdbc.cache-statements.size"));
+		ecslnkJpaProperties.put("eclipselink.cache.shared.default", environment.getProperty("eclipselink.cache.shared.default"));
+		ecslnkJpaProperties.put("eclipselink.flush-clear.cache", environment.getProperty("eclipselink.flush-clear.cache"));
+		ecslnkJpaProperties.put("eclipselink.cache.size.default", environment.getProperty("eclipselink.cache.size.default"));
+		ecslnkJpaProperties.put("eclipselink.target-database", environment.getProperty("eclipselink.target-database"));
 
 		return ecslnkJpaProperties;
 	}
 	
 	private Properties hibernateJpaProperties() {
 		Properties hbtJpaProperties = new Properties();
-		
-		hbtJpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));	//"create-drop");
-		hbtJpaProperties.put("hibernate.show_sql", "true");
-		hbtJpaProperties.put("hibernate.format_sql", "true");
-		hbtJpaProperties.put("hibernate.use_sql_comments", "true");
-		hbtJpaProperties.put("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
+
+		hbtJpaProperties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+		hbtJpaProperties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+		hbtJpaProperties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
+		hbtJpaProperties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));	//"create-drop");
+		hbtJpaProperties.put("hibernate.use_sql_comments", environment.getProperty("hibernate.use_sql_comments"));
+		hbtJpaProperties.put("hibernate.generate_statistics", environment.getProperty("hibernate.generate_statistics"));
 
 		//hbtJpaProperties.put("hibernate.current_session_context_class", "thread");
 		//hbtJpaProperties.put("hibernate.current_session_context_class", "org.springframework.orm.hibernate4.SpringSessionContext");
@@ -147,12 +147,13 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 	
 	private Map<String, String> hibernateJpaPropertyMap() {
 		Map<String, String> hbtJpaPropertyMap = new HashMap<String, String>();
-		
-		hbtJpaPropertyMap.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));	//"create-drop");
-		hbtJpaPropertyMap.put("hibernate.show_sql", "true");
-		hbtJpaPropertyMap.put("hibernate.format_sql", "true");
-		hbtJpaPropertyMap.put("hibernate.use_sql_comments", "true");
-		hbtJpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
+
+		hbtJpaPropertyMap.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+		hbtJpaPropertyMap.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+		hbtJpaPropertyMap.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
+		hbtJpaPropertyMap.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));	//"create-drop");
+		hbtJpaPropertyMap.put("hibernate.use_sql_comments", environment.getProperty("hibernate.use_sql_comments"));
+		hbtJpaPropertyMap.put("hibernate.generate_statistics", environment.getProperty("hibernate.generate_statistics"));
 
 		//hbtJpaPropertyMap.put("hibernate.current_session_context_class", "thread");
 		//hbtJpaPropertyMap.put("hibernate.current_session_context_class", "org.springframework.orm.hibernate4.SpringSessionContext");
