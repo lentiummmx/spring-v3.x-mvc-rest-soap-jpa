@@ -78,7 +78,7 @@ public class UserController {
 			userService.save(user);
 			return "redirect:login";
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Ocurrio un error al registrar el usuario.", e);
 			model.addAttribute("ERROR", e.getMessage());
 			return "register";
 		}

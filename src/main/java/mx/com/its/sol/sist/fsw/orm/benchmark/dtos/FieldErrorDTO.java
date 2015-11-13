@@ -6,7 +6,7 @@ package mx.com.its.sol.sist.fsw.orm.benchmark.dtos;
 import java.io.Serializable;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 public class FieldErrorDTO implements Serializable {

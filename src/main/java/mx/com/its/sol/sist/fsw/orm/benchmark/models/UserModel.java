@@ -9,13 +9,13 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.MaskFormat;
 
 import mx.com.its.sol.sist.fsw.orm.benchmark.entities.Role;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 public class UserModel {
@@ -43,6 +43,9 @@ public class UserModel {
 	private String username;
 	
 	private Long id;
+
+	@MaskFormat(value = "+## # (##) #### ####")
+	private String phoneNumber;
 
 	/**
 	 * @return the id
@@ -168,6 +171,20 @@ public class UserModel {
 	 */
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	/**
+	 * @return the phoneNumber
+	 */
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	/**
+	 * @param phoneNumber the phoneNumber to set
+	 */
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }

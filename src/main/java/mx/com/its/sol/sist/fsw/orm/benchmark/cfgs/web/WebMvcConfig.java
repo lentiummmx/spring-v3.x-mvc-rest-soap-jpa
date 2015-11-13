@@ -3,7 +3,10 @@
  */
 package mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.web;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +14,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.AnnotationFormatterFactory;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.mask.MaskFormatAnnotationFormatterFactory;
+import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
@@ -91,6 +98,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(new MappingJackson2HttpMessageConverter());
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addFormatters(org.springframework.format.FormatterRegistry)
+	 */
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addFormatterForFieldAnnotation(new MaskFormatAnnotationFormatterFactory());
 	}
 
 }

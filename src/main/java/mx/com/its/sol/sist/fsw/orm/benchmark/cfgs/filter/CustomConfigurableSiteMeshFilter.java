@@ -7,7 +7,7 @@ import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.sitemesh.config.ConfigurableSiteMeshFilter;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 public class CustomConfigurableSiteMeshFilter extends ConfigurableSiteMeshFilter {

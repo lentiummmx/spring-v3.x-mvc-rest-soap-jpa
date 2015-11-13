@@ -12,7 +12,7 @@ import mx.com.its.sol.sist.fsw.orm.benchmark.entities.User;
 import mx.com.its.sol.sist.fsw.orm.benchmark.models.UserModel;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 @Component

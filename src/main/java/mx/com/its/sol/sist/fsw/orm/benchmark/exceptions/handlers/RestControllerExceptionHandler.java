@@ -25,7 +25,7 @@ import mx.com.its.sol.sist.fsw.orm.benchmark.exceptions.OrmBenchmarkException;
 import mx.com.its.sol.sist.fsw.orm.benchmark.exceptions.OrmBenchmarkRuntimeException;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 @ControllerAdvice

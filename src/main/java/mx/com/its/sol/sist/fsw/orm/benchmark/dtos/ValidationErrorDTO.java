@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 public class ValidationErrorDTO implements Serializable {

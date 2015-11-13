@@ -6,7 +6,7 @@ package mx.com.its.sol.sist.fsw.orm.benchmark.exceptions;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * @author ITS-AZJ
+ * @author lentiummmx
  *
  */
 public class OrmBenchmarkRuntimeException extends RuntimeException {

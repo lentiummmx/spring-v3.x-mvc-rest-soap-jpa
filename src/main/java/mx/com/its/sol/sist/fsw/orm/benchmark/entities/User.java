@@ -65,6 +65,9 @@ public class User extends AuditEntity {
 	@Column(name="birth_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthDate;
+	
+	@Column(name="phone_number")
+	private String phoneNumber;
 
 	/**
 	 * @return the id
@@ -190,6 +193,20 @@ public class User extends AuditEntity {
 	 */
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	/**
+	 * @return the phoneNumber
+	 */
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	/**
+	 * @param phoneNumber the phoneNumber to set
+	 */
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }
