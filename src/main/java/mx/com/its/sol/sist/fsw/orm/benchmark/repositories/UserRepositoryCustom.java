@@ -9,4 +9,6 @@ package mx.com.its.sol.sist.fsw.orm.benchmark.repositories;
  */
 public interface UserRepositoryCustom<T, ID> {
 
+	T findByUsernameRetNotNull(String username);
+	
 }

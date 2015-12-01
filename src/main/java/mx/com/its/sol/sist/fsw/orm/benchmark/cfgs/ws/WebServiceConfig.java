@@ -5,6 +5,9 @@ package mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.ws;
 
 import java.util.List;
 
+import javax.jws.WebService;
+import javax.xml.ws.WebServiceProvider;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -29,8 +32,9 @@ import mx.com.its.sol.sist.fsw.orm.benchmark.ws.soap.UserEndpoint;
 @EnableWs
 @Configuration
 @ComponentScan(basePackages = { "mx.com.its.sol.sist.fsw.orm.benchmark.ws.soap" },
-				includeFilters = @Filter({ Endpoint.class }),
-				useDefaultFilters = false)
+		includeFilters = @Filter({ Endpoint.class }),
+		excludeFilters = { @Filter(WebService.class), @Filter(WebServiceProvider.class) },
+		useDefaultFilters = false)
 public class WebServiceConfig extends WsConfigurerAdapter {
 	
 	@Bean

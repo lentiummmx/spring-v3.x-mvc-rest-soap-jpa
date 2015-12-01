@@ -4,9 +4,11 @@
 package mx.com.its.sol.sist.fsw.orm.benchmark.cfgs;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import mx.com.its.sol.sist.fsw.orm.benchmark.cfgs.data.DataAccessConfig;
@@ -64,7 +66,39 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		//ConfigurableSiteMeshFilter configurableSiteMeshFilter = new ConfigurableSiteMeshFilter();
 		CustomConfigurableSiteMeshFilter configurableSiteMeshFilter = new CustomConfigurableSiteMeshFilter();
 		
-		return new Filter[]{characterEncodingFilter, configurableSiteMeshFilter};	//, springSecurityFilter};
+		MultipartFilter multipartFilter = new MultipartFilter();
+		
+		return new Filter[]{characterEncodingFilter, configurableSiteMeshFilter, multipartFilter};	//, springSecurityFilter};
+	}
+	
+	/**
+	 * LOCATION <br> Temporary location where files will be stored
+	 */
+	private static final String LOCATION = "/temp/";
+	
+	/**
+	 * MAX_FILE_SIZE <br> 5MB : Max file size. Beyond that size spring will throw exception.
+	 */
+	private static final long MAX_FILE_SIZE = 1024 * 1024 * 5;
+	
+	/**
+	 * MAX_REQUEST_SIZE <br> 20MB : Total request size containing Multi part.
+	 */
+	private static final long MAX_REQUEST_SIZE = 1024 * 1024 * 20;
+	
+	/**
+	 * FILE_SIZE_THRESHOLD <br> Size threshold after which files will be written to disk
+	 */
+	private static final int FILE_SIZE_THRESHOLD = 0;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private MultipartConfigElement getMultipartConfigElement() {
+		MultipartConfigElement multipartConfigElement = new MultipartConfigElement(LOCATION, MAX_FILE_SIZE,
+				MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+		return multipartConfigElement;
 	}
 
 	/*
@@ -75,6 +109,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		registration.setInitParameter("defaultHtmlEscape", "true");
 		//registration.setInitParameter("spring.profiles.active", "default");
+		registration.setMultipartConfig(getMultipartConfigElement());
 	}
 	
 }

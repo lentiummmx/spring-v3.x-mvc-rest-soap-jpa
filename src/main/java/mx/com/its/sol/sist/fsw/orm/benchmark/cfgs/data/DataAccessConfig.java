@@ -170,6 +170,7 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 		entityManagerFactoryBean.setJpaProperties(eclipselinkJpaProperties());
 		entityManagerFactoryBean.setJpaVendorAdapter(eclipseLinkJpaVendorAdapter());
 		//Configuración para utilizar Hibernate como provedor de JPA
+		//entityManagerFactoryBean.setJpaProperties(hibernateJpaProperties());
 		//entityManagerFactoryBean.setJpaPropertyMap(hibernateJpaPropertyMap());
 		//entityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter());
 		entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());

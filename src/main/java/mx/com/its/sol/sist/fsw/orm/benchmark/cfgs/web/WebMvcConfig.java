@@ -21,6 +21,7 @@ import org.springframework.format.support.FormattingConversionServiceFactoryBean
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -106,6 +107,33 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addFormatterForFieldAnnotation(new MaskFormatAnnotationFormatterFactory());
+	}
+	
+	@Bean
+	public StandardServletMultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
+	}
+	
+	@Bean
+	@Deprecated
+	public FormattingConversionServiceFactoryBean myConversionService() {
+		Set<AnnotationFormatterFactory<?>> customFormatters = new HashSet<AnnotationFormatterFactory<?>>();
+		customFormatters.add(new MaskFormatAnnotationFormatterFactory());
+		
+		FormattingConversionServiceFactoryBean formattingConversionServiceFactoryBean = new FormattingConversionServiceFactoryBean();
+		formattingConversionServiceFactoryBean.setFormatters(customFormatters);
+		return formattingConversionServiceFactoryBean;
+	}
+
+	@Bean
+	@Deprecated
+	public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver b = new SimpleMappingExceptionResolver();
+
+		Properties mappings = new Properties();
+		mappings.put("org.springframework.dao.DataAccessException", "error/general");
+		b.setExceptionMappings(mappings);
+		return b;
 	}
 
 }
