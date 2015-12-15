@@ -102,6 +102,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login").permitAll()
 				//.loginPage("/resources").permitAll()
 				.loginProcessingUrl("/login")
+				.defaultSuccessUrl("/showMessage.html")
 				.failureUrl("/login?error=1").permitAll().and()
 			.logout().logoutUrl("/logout").permitAll().and()
 			.rememberMe().rememberMeServices(rememberMeServices()).key("remember-me-key").and()

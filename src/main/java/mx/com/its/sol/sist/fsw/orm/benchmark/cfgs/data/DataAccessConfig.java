@@ -33,8 +33,10 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -105,6 +107,14 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 		return hibernateJpaVendorAdapter;
 	}
 	
+	private JpaVendorAdapter openJpaVendorAdapter() {
+		OpenJpaVendorAdapter openJpaVendorAdapter = new OpenJpaVendorAdapter();
+		openJpaVendorAdapter.setDatabasePlatform(environment.getProperty("hibernate.dialect"));
+		openJpaVendorAdapter.setGenerateDdl(true);
+		openJpaVendorAdapter.setShowSql(true);
+		return openJpaVendorAdapter;
+	}
+	
 	private Properties eclipselinkJpaProperties() {
 		Properties ecslnkJpaProperties = new Properties();
 
@@ -145,6 +155,27 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 		return hbtJpaProperties;
 	}
 	
+	private Properties openJpaProperties() {
+		Properties openJpaProperties = new Properties();
+		
+		// Does not create foreign keys, creates schema and deletes content of a database (deleteTableContents - foreign keys are created twice???), use dropDB instead
+		openJpaProperties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
+		//openJpaProperties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(foreignKeys=true,schemaAction='dropDB,add')");
+		// Resolves the problem with foreign key integrity - joined entities are persisted sometimes in wrong order??? (verify it)
+		openJpaProperties.put("openjpa.jdbc.SchemaFactory", "native(foreignKeys=true)");
+		// Create foreign keys
+		openJpaProperties.put("openjpa.jdbc.MappingDefaults", "ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict");
+		
+		openJpaProperties.put("openjpa.RuntimeUnenhancedClasses", "unsupported");
+		openJpaProperties.put("openjpa.DynamicEnhancementAgent","true");
+		
+		// Enable logging
+		openJpaProperties.put("openjpa.ConnectionFactoryProperties", "PrintParameters=true");
+		openJpaProperties.put("openjpa.Log", "DefaultLevel=TRACE,SQL=TRACE");
+		
+		return openJpaProperties;
+	}
+	
 	private Map<String, String> hibernateJpaPropertyMap() {
 		Map<String, String> hbtJpaPropertyMap = new HashMap<String, String>();
 
@@ -166,12 +197,19 @@ public class DataAccessConfig implements TransactionManagementConfigurer {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		LOGGER.debug("after defining LocalContainerEntityManagerFactoryBean entityManagerFactory()");
 		entityManagerFactoryBean.setDataSource(jndiDataSource());
+		
 		//Configuración para utilizar EclipseLink como provedor de JPA
 		entityManagerFactoryBean.setJpaProperties(eclipselinkJpaProperties());
 		entityManagerFactoryBean.setJpaVendorAdapter(eclipseLinkJpaVendorAdapter());
+		
 		//Configuración para utilizar Hibernate como provedor de JPA
 		//entityManagerFactoryBean.setJpaPropertyMap(hibernateJpaPropertyMap());
 		//entityManagerFactoryBean.setJpaVendorAdapter(hibernateJpaVendorAdapter());
+		
+		//Configuración para utilizar OpenJPA como provedor de JPA
+		//entityManagerFactoryBean.setJpaProperties(openJpaProperties());
+		//entityManagerFactoryBean.setJpaVendorAdapter(openJpaVendorAdapter());
+		
 		entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
 		entityManagerFactoryBean.setPackagesToScan(new String[]{"mx.com.its.sol.sist.fsw.orm.benchmark.entities"});
 		entityManagerFactoryBean.afterPropertiesSet();
