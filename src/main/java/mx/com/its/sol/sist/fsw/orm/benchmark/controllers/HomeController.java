@@ -21,6 +21,12 @@ public class HomeController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 	
+	@RequestMapping(value="/")
+	public String index() {
+		LOGGER.debug("*** index ***");
+		return "redirect:/index.jsp";
+	}
+	
 	@RequestMapping(value="/signin")
 	public String signin() {
 		LOGGER.debug("inside signin before render");
